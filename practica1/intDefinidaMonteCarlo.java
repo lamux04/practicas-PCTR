@@ -14,6 +14,8 @@ public class intDefinidaMonteCarlo {
         Integral Hilo2 = new Integral(f2, puntos, 2);
         Hilo1.start();
         Hilo2.start();
+
+        scanner.close();
     }
 }
 
