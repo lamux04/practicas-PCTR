@@ -1,10 +1,10 @@
-public class CuentaCorriente {
+public class cuentaCorriente {
     // Atributos de la cuenta corriente
     private String numeroCuenta;
     private double saldo;
 
     // Constructor que inicializa la cuenta con un número y un saldo inicial
-    public CuentaCorriente(String numeroCuenta, double saldoInicial) {
+    public cuentaCorriente(String numeroCuenta, double saldoInicial) {
         this.numeroCuenta = numeroCuenta;
         this.saldo = saldoInicial;
     }
