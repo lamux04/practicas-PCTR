@@ -13,10 +13,10 @@ public class Hyman {
     {
         public void run()
         {
-            for (int i = 0; i < 1000; ++i) {
+            for (int i = 0; i < 100000; ++i) {
                 wantp = true;
                 while (turn != 0) {
-                    while (wantp) {
+                    while (wantq) {
                     }
                     turn = 0;
                 }
@@ -31,10 +31,10 @@ public class Hyman {
     {
         public void run() 
         {
-            for (int i = 0; i < 1000; ++i) {
+            for (int i = 0; i < 100000; ++i) {
                 wantq = true;
                 while (turn != 1) {
-                    while (wantq) {
+                    while (wantp) {
                     }
                     turn = 1;
                 }
