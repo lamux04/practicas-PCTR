@@ -1,6 +1,8 @@
 package trabajo;
 
-
+// Clase para graficar la onda
+import javax.swing.*;
+import java.awt.*;
 
 public class SimulacionOnda {
 
@@ -18,8 +20,8 @@ public class SimulacionOnda {
         final double L = 10.0; // Longitud del dominio (espacio)
         final double T = 10.0; // Tiempo total de la simulación
         final double c = 1.0;  // Velocidad de propagación de la onda
-        final int nx = 100;    // Número de puntos en el espacio
-        final int nt = 500;    // Número de pasos de tiempo
+        final int nx = 10000;    // Número de puntos en el espacio
+        final int nt = 50000;    // Número de pasos de tiempo
 
         // Definir un pulso inicial (ejemplo: pulso rectangular en el centro)
         int inicioPulso = nx / 4;
@@ -54,27 +56,32 @@ public class SimulacionOnda {
         // ---------------------- SIMULACIÓN ONDA -------------------------
         double courantFactor = Math.pow(c * dt / dx, 2); // Factor Courant
 
+        double inicio = System.nanoTime();
+
         for (int t = 0; t < nt; t++) {
             // Actualizar los valores de amplitud para el siguiente paso de tiempo
             for (int i = 1; i < nx - 1; i++) { // Evitamos los extremos
-                uFuture[i] = 2 * u[i] - uPast[i] + 
-                            courantFactor * (u[i + 1] - 2 * u[i] + u[i - 1]);
+                uFuture[i] = 2 * u[i] - uPast[i] +
+                        courantFactor * (u[i + 1] - 2 * u[i] + u[i - 1]);
             }
 
             // Actualizar las matrices para el siguiente paso de tiempo
-            System.arraycopy(u, 0, uPast, 0, nx);    // u -> uPast
+            System.arraycopy(u, 0, uPast, 0, nx); // u -> uPast
             System.arraycopy(uFuture, 0, u, 0, nx); // uFuture -> u
 
             // Opción: imprimir en consola el estado de la onda (cada ciertos pasos)
-            if (t % (nt / 100) == 0) { // Imprimir cada 10% de la simulación
-                GraficaOnda.mostrarGrafica(u);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e)
-                {}
-            }
+            // if (t % (nt / 100) == 0) { // Imprimir cada 10% de la simulación
+            //     GraficaOnda.mostrarGrafica(u);
+            //     try {
+
+            //         Thread.sleep(100);
+            //     } catch (Exception e) {
+            //     }
+            // }
         }
+        
+        double fin = System.nanoTime();
+
+        System.out.println("Tiempo de simulación: " + (fin - inicio) / 1e9 + " segundos.");
     }
 }
-
-

@@ -4,6 +4,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulacionParalela {
@@ -21,9 +22,9 @@ public class SimulacionParalela {
         final double L = 10.0; // Longitud del dominio (espacio)
         final double T = 10.0; // Tiempo total de la simulación
         final double c = 1.0;  // Velocidad de propagación de la onda
-        final int nx = 100;    // Número de puntos en el espacio
-        final int nt = 500;    // Número de pasos de tiempo
-
+        final int nx = 10000;    // Número de puntos en el espacio
+        final int nt = 50000; // Número de pasos de tiempo
+        
         // Definir un pulso inicial (ejemplo: pulso rectangular en el centro)
         int inicioPulso = nx / 4;
         int finPulso = nx / 2;
@@ -57,11 +58,13 @@ public class SimulacionParalela {
         // ---------------------- SIMULACIÓN ONDA -------------------------
         double courantFactor = Math.pow(c * dt / dx, 2); // Factor Courant
 
-        final int nHilos = 8;
+        final int nHilos = 3;
         CyclicBarrier barrera = new CyclicBarrier(nHilos);
         AtomicInteger nHilosTerminados = new AtomicInteger(0);
 
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+        ExecutorService executor = Executors.newFixedThreadPool(nHilos);
+
+        double iniciot = System.nanoTime();
 
         for (int i = 0; i < nHilos; ++i) {
             int inicio = i * (nt / nHilos);
@@ -74,6 +77,16 @@ public class SimulacionParalela {
         }
 
         executor.shutdown();
+
+        try {
+
+            executor.awaitTermination(10, TimeUnit.DAYS);
+        } catch (Exception e) {
+        }
+                
+        double fin = System.nanoTime();
+
+        System.out.println("Tiempo de simulación: " + (fin - iniciot) / 1e9 + " segundos.");
     }
 }
 
@@ -118,13 +131,13 @@ class SimulacionParcial implements Runnable {
                 System.arraycopy(uFuture, 0, u, 0, nx); // uFuture -> u
                 
                 // Opción: imprimir en consola el estado de la onda (cada ciertos pasos)
-                if (t % (nt / 100) == 0) { // Imprimir cada 10% de la simulación
-                    GraficaOnda.mostrarGrafica(u);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-                }
+                // if (t % (nt / 100) == 0) { // Imprimir cada 10% de la simulación
+                //     GraficaOnda.mostrarGrafica(u);
+                //     try {
+                //         Thread.sleep(100);
+                //     } catch (InterruptedException e) {
+                //     }
+                // }
                 
                 nHilosTerminados.set(0);
             }
