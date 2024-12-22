@@ -66,9 +66,8 @@ public class SimulacionOnda {
         System.arraycopy(u, 0, uPast, 0, nx);
 
         // ---------------------- SIMULACIÓN DE LA ONDA -------------------------
-        double courantFactor = Math.pow(c * dt / dx, 2); // Factor Courant
-
         double inicio = System.nanoTime();
+        double courantFactor = Math.pow(c * dt / dx, 2); // Factor Courant
 
         for (int t = 0; t < nt; t++) {
             // Actualizar los valores de amplitud para el siguiente paso de tiempo
@@ -80,6 +79,14 @@ public class SimulacionOnda {
             // Actualizar los estados para el siguiente paso de tiempo
             System.arraycopy(u, 0, uPast, 0, nx); // u -> uPast
             System.arraycopy(uFuture, 0, u, 0, nx); // uFuture -> u
+
+            if (t % (nt / 100) == 0) {
+                GraficaOnda.mostrarGrafica(u);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e)
+                {}
+            }
         }
 
         double fin = System.nanoTime();

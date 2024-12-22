@@ -141,6 +141,14 @@ class SimulacionParcial implements Runnable {
                 System.arraycopy(u, 0, uPast, 0, nx);
                 System.arraycopy(uFuture, 0, u, 0, nx);
                 nHilosTerminados.set(0);
+
+                if (t % (nt / 100) == 0) {
+                    GraficaOnda.mostrarGrafica(u);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e)
+                    {}
+                }
             }
 
             try {

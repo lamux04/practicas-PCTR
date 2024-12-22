@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Pruebas {
-     public static void escribirArchivo(String nombreArchivo, String[] datos) {
+    public static void escribirArchivo(String nombreArchivo, String[] datos) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
             for (String linea : datos) {
                 writer.write(linea);
@@ -42,7 +42,6 @@ public class Pruebas {
         }
 
         mejorNHilos = numHilos[imejorNhilos];
-        
 
         // Calculamos el tiempo entre el secuencial
         double tiempo_secuencial = SimulacionOnda.simular(conjunto_pruebas[4][0], conjunto_pruebas[4][1],
@@ -54,8 +53,28 @@ public class Pruebas {
         {
             datos[i] = "" + numHilos[i - 1] + "    " + tiempo_hilos[i - 1] + "    " + tiempo_secuencial / tiempo_hilos[i - 1];
         }
-        
+
         // Escribir los datos en un archivo
         escribirArchivo("trabajo/datos_tiempo.txt", datos);
     }
+
+    // public static void main(String[] args) {
+    //     int[][] conjunto_pruebas = {
+    //         {100, 200, 5, 6},
+    //         {1000, 10000, 400, 600},
+    //         {10000, 20000, 300, 400},
+    //         {10000, 20000, 3, 4},
+    //         {100000, 200000, 33, 400},
+    //         {1000, 2000, 900, 1000}
+    //     };
+
+    //     // Calculamos el tiempo al cambiar de hilo con la prueba 4
+    //     for (int i = 0; i < conjunto_pruebas.length; ++i)
+    //     {
+    //         SimulacionOnda.simular(conjunto_pruebas[i][0], conjunto_pruebas[i][1],
+    //                 conjunto_pruebas[i][2], conjunto_pruebas[i][3]);
+    //         SimulacionParalela.simular(conjunto_pruebas[i][0], conjunto_pruebas[i][1],
+    //                 conjunto_pruebas[i][2], conjunto_pruebas[i][3], 4);
+    //     }
+    // }
 }

@@ -1,5 +1,5 @@
-set title "Tiempo de Ejecución vs Número de hilos"
-set xlabel "Número de Hilos"
+set title "Speedup vs Número de hilos"
+set xlabel "Speedup"
 set ylabel "Tiempo (s)"
 set grid
 set key left top
